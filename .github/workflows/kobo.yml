@@ -23,4 +23,6 @@ jobs:
           pip install requests pandas gspread oauth2client openpyxl
 
       - name: Run script
-        run: python kobo_to_excel.py
+  run: python kobo_to_excel.py
+  env:
+    GOOGLE_CREDENTIALS: ${{ secrets.GOOGLE_CREDENTIALS }}
