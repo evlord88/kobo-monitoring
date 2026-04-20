@@ -119,23 +119,26 @@ print(f"Data exported to {OUTPUT_FILE}")
 # ================= GOOGLE SHEETS =================
 print("Uploading to Google Sheets...")
 
+import os
+import json
+
 scope = [
     "https://spreadsheets.google.com/feeds",
     "https://www.googleapis.com/auth/drive"
 ]
 
-creds = ServiceAccountCredentials.from_json_keyfile_name(
-    "credentials.json", scope
+creds_dict = json.loads(os.environ["GOOGLE_CREDENTIALS"])
+
+creds = ServiceAccountCredentials.from_json_keyfile_dict(
+    creds_dict, scope
 )
 
 client = gspread.authorize(creds)
 
-# ⚠️ pastikan nama sama persis
 sheet = client.open("Kobo Monitoring").sheet1
 
 sheet.clear()
 
-# 🔥 FIX ERROR NaN
 df_main = df_main.fillna("")
 
 sheet.update(
