@@ -1,9 +1,9 @@
 name: Kobo Auto Update
 
 on:
+  workflow_dispatch:
   schedule:
     - cron: "*/10 * * * *"  # tiap 10 menit
-  workflow_dispatch:       # bisa run manual
 
 jobs:
   run-script:
@@ -19,10 +19,9 @@ jobs:
           python-version: '3.10'
 
       - name: Install dependencies
-        run: |
-          pip install requests pandas gspread oauth2client openpyxl
+        run: pip install requests pandas openpyxl gspread oauth2client
 
       - name: Run script
-  run: python kobo_to_excel.py
-  env:
-    GOOGLE_CREDENTIALS: ${{ secrets.GOOGLE_CREDENTIALS }}
+        run: python kobo_to_excel.py
+        env:
+          GOOGLE_CREDENTIALS: ${{ secrets.GOOGLE_CREDENTIALS }}
