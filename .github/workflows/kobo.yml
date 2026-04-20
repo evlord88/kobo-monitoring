@@ -1,0 +1,26 @@
+name: Kobo Auto Update
+
+on:
+  schedule:
+    - cron: "*/10 * * * *"  # tiap 10 menit
+  workflow_dispatch:       # bisa run manual
+
+jobs:
+  run-script:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout repo
+        uses: actions/checkout@v3
+
+      - name: Setup Python
+        uses: actions/setup-python@v4
+        with:
+          python-version: '3.10'
+
+      - name: Install dependencies
+        run: |
+          pip install requests pandas gspread oauth2client openpyxl
+
+      - name: Run script
+        run: python kobo_to_excel.py
